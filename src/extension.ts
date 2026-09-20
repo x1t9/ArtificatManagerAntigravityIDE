@@ -62,9 +62,9 @@ export function activate(context: vscode.ExtensionContext): void {
     const statusBar = new StatusBarController(context);
 
     if (!configManager.exists) {
-        bootstrapFirstRun(workspaceRoot, configManager, context, statusBar);
+        bootstrapFirstRun(workspaceRoot, configManager, context, statusBar, settingsProvider);
     } else {
-        launchEngine(configManager, context, statusBar);
+        launchEngine(configManager, context, statusBar, settingsProvider);
     }
 }
 
@@ -75,6 +75,7 @@ async function bootstrapFirstRun(
     configManager: ConfigManager,
     context: vscode.ExtensionContext,
     statusBar: StatusBarController,
+    settingsProvider: SettingsViewProvider,
 ): Promise<void> {
     const defaultBrainPath = resolveDefaultBrainPath();
 
@@ -98,7 +99,7 @@ async function bootstrapFirstRun(
     configManager.writeDefault({ antigravityBrainPath: defaultBrainPath });
     vscode.window.showInformationMessage('Artifact Manager for Antigravity initialized.');
     applyGitConfig(configManager, workspaceRoot);
-    launchEngine(configManager, context, statusBar);
+    launchEngine(configManager, context, statusBar, settingsProvider);
 }
 
 // ── Engine launcher ───────────────────────────────────────────────────────
@@ -107,6 +108,7 @@ function launchEngine(
     configManager: ConfigManager,
     context: vscode.ExtensionContext,
     statusBar: StatusBarController,
+    settingsProvider: SettingsViewProvider,
 ): SyncEngine {
     const workspaceRoot = vscode.workspace.workspaceFolders?.[0]?.uri.fsPath ?? process.cwd();
     const engine = new SyncEngine(configManager.config, workspaceRoot);
@@ -118,17 +120,10 @@ function launchEngine(
         engine.onSyncError(() => statusBar.setState('unsynced')),
     );
 
-    // Activity Bar badge — update count in real time
+    // Activity Bar badge — update count in real time (Source Control style)
     context.subscriptions.push(
         engine.onChangeCountUpdate(count => {
-            statusBar.setChangeCount(count);
-            // VS Code badge on the activity bar icon via the view badge API
-            // (available when a WebviewView is resolved — best effort)
-            try {
-                vscode.commands.executeCommand(
-                    'setContext', 'antigravity.changeCount', count,
-                );
-            } catch { /* not critical */ }
+            settingsProvider.setBadge(count);
         }),
     );
 

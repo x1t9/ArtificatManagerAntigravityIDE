@@ -19,7 +19,7 @@ import { ConfigManager }        from './configManager';
 import { BrainFolderReader, FULL_BRAIN_ID } from './brainFolderReader';
 import { ArtifactConfig, ConversationEntry, SyncMode, SyncStrategy } from './types';
 
-const EXT_VERSION = '1.0.2';
+const EXT_VERSION = '1.0.3';
 const AUTHOR      = 'x1t9';
 const GITHUB_URL  = 'https://github.com/x1t9/ArtificatManagerAntigravityIDE';
 
@@ -64,6 +64,23 @@ export class SettingsViewProvider implements vscode.WebviewViewProvider {
     public async reloadConversations(): Promise<void> {
         await this.loadConversations();
         this.render();
+    }
+
+    /**
+     * Update the Activity Bar badge — the number circle shown on the icon,
+     * exactly like the Source Control badge.
+     * count = 0 clears the badge.
+     */
+    public setBadge(count: number): void {
+        if (!this.view) return;
+        if (count > 0) {
+            this.view.badge = {
+                value:   count,
+                tooltip: `${count} artifact file${count === 1 ? '' : 's'} pending sync`,
+            };
+        } else {
+            this.view.badge = undefined;
+        }
     }
 
     // ── Message handling ──────────────────────────────────────────────────

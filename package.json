@@ -2,7 +2,7 @@
   "name": "artifact-manager-for-antigravity",
   "displayName": "Artifact Manager for Antigravity",
   "description": "Bidirectional sync between VS Code workspaces and Google Antigravity IDE brain folders. Activity Bar integration with real-time change badge, conversation browser, and git tracking.",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "publisher": "x1t9",
   "author": {
     "name": "x1t9",
@@ -60,7 +60,7 @@
       {
         "command": "antigravity.syncNow",
         "title": "Antigravity: Sync Now",
-        "icon": "$(sync)"
+        "icon": "icons/antigravity-activity.svg"
       },
       {
         "command": "antigravity.openConfig",

@@ -1,6 +1,6 @@
 # Artifact Manager for Antigravity
 
-**Version 1.0.2** · Author: [x1t9](https://github.com/x1t9) · License: MIT
+**Version 1.0.3** · Author: [x1t9](https://github.com/x1t9) · License: MIT
 
 Bidirectional sync between VS Code workspaces and the Google Antigravity IDE brain folder, with an Activity Bar sidebar for real-time configuration and monitoring.
 
