@@ -1,0 +1,129 @@
+{
+  "name": "artifact-manager-for-antigravity",
+  "displayName": "Artifact Manager for Antigravity",
+  "description": "Bidirectional sync between VS Code workspaces and Google Antigravity IDE brain folders. Activity Bar integration with real-time change badge, conversation browser, and git tracking.",
+  "version": "1.0.2",
+  "publisher": "x1t9",
+  "author": {
+    "name": "x1t9",
+    "url": "https://github.com/x1t9"
+  },
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": ["Other"],
+  "keywords": ["antigravity", "gemini", "sync", "artifacts", "google", "ai"],
+  "icon": "icons/icon.png",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/x1t9/ArtificatManagerAntigravityIDE"
+  },
+  "homepage": "https://github.com/x1t9/ArtificatManagerAntigravityIDE#readme",
+  "bugs": {
+    "url": "https://github.com/x1t9/ArtificatManagerAntigravityIDE/issues"
+  },
+  "license": "MIT",
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "antigravity-sidebar",
+          "title": "Artifact Manager for Antigravity",
+          "icon": "icons/antigravity-activity.svg"
+        }
+      ]
+    },
+    "views": {
+      "antigravity-sidebar": [
+        {
+          "type": "webview",
+          "id": "antigravity.settingsView",
+          "name": "Sync Settings"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "Artifact Manager for Antigravity",
+      "properties": {
+        "antigravity.manager.autoSync": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable automated operational loops."
+        }
+      }
+    },
+    "commands": [
+      {
+        "command": "antigravity.syncNow",
+        "title": "Antigravity: Sync Now",
+        "icon": "$(sync)"
+      },
+      {
+        "command": "antigravity.openConfig",
+        "title": "Antigravity: Open Settings",
+        "icon": "$(settings-gear)"
+      },
+      {
+        "command": "antigravity.refreshConversations",
+        "title": "Antigravity: Refresh Conversation List",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "antigravity.applyGitConfig",
+        "title": "Antigravity: Apply Git Configuration"
+      }
+    ],
+    "menus": {
+      "view/title": [
+        {
+          "command": "antigravity.syncNow",
+          "when": "view == antigravity.settingsView",
+          "group": "navigation@1"
+        },
+        {
+          "command": "antigravity.refreshConversations",
+          "when": "view == antigravity.settingsView",
+          "group": "navigation@2"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "lint": "eslint src --ext ts",
+    "test": "jest --runInBand --forceExit",
+    "test:coverage": "jest --runInBand --forceExit --coverage",
+    "vscode:prepublish": "npm run compile",
+    "package": "vsce package --no-dependencies"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.5.12",
+    "@types/node": "^20.0.0",
+    "@types/vscode": "^1.85.0",
+    "@typescript-eslint/eslint-plugin": "^7.0.0",
+    "@typescript-eslint/parser": "^7.0.0",
+    "@vscode/vsce": "^4.0.0",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.1.4",
+    "typescript": "^5.4.0"
+  },
+  "jest": {
+    "preset": "ts-jest",
+    "testEnvironment": "node",
+    "roots": ["<rootDir>/src"],
+    "testMatch": ["**/__tests__/**/*.test.ts"],
+    "moduleNameMapper": {
+      "^vscode$": "<rootDir>/src/__mocks__/vscode.ts"
+    },
+    "collectCoverageFrom": [
+      "src/**/*.ts",
+      "!src/__mocks__/**",
+      "!src/__tests__/**"
+    ]
+  }
+}

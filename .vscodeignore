@@ -1,0 +1,24 @@
+# Source — compiled output lives in out/, not src/
+src/**
+
+# Test infrastructure
+**/__tests__/**
+**/__mocks__/**
+
+# Workspace config folder — not part of the extension bundle
+.artifact/**
+
+# Config / tooling files not needed at runtime
+.vscode/**
+.vscode-test/**
+.gitignore
+.eslintrc.json
+tsconfig.json
+jest.config.*
+*.map
+
+# Dev dependencies
+node_modules/**
+
+# Build artefacts we DO want — out/ must NOT be ignored
+# (do not add out/** here)
