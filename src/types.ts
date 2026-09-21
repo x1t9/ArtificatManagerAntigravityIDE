@@ -68,5 +68,5 @@ export const DEFAULT_CONFIG: ArtifactConfig = {
     timeIntervalMinutes:  15,
     excludedExtensions:   ['.tmp', '.log'],
     linkedConversationId: '',
-    gitTrackArtifact:     false,                // .artifact excluded from git by default
+    gitTrackArtifact:     true,                 // .artifact tracked in git by default
 };
